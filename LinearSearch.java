@@ -8,8 +8,8 @@ public class LinearSearch {
                     return i ; 
 
                 }
-                return -1;
             }
+            return -1;
     }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -21,6 +21,6 @@ public class LinearSearch {
         }
         int k = sc.nextInt();
         
-        System.out.println(ls(arr, k));
+        System.out.println(ls(arr, k)+ "th: place in the given array!!!!");
     }
 }
