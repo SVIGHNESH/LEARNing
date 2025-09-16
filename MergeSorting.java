@@ -33,7 +33,7 @@ public class MergeSorting {
         }
     }
     void MergeSort(int arr[] , int low , int high){
-        if(low >= high){
+        if(low >= high){ //Base Condition
             return;
         }   
 
