@@ -9,12 +9,13 @@ class JosephusProblem {
         index = (index + k) % person.size(); 
         person.remove(index); 
         solve(person, k, index, ans); 
+
         return;
     }
 
     public static void main(String args[]) {
         Scanner sc = new Scanner(System.in);
-
+        // NOw it should be clear just like what i am seeing in my computer
         int n = 7, k = 2;
         ArrayList<Integer> person = new ArrayList<>();
         for (int i = 1; i <= n; i++) {
