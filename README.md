@@ -1,6 +1,6 @@
 # Java DSA/CP Workspace
 
-This workspace is set up for competitive programming and DSA practice in Java.
+Tis workspace is set up for competitive programming and DSA practice in Java.
 
 ## Files
 - `input.txt`: Place your input here.

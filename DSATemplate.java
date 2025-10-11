@@ -5,7 +5,7 @@ class DSATemplate{
         int n = sc.nextInt();
         System.out.println(n--);
         System.out.println(n);
-        sc.close();
+
 
     }
 }
