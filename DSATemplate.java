@@ -1,6 +1,10 @@
+import java.util.*;
 class DSATemplate{
     public static void main(String []args){
-        System.out.println("This is the one of the made of the change");
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        System.out.println(n);
+
 
     }
 }
