@@ -5,6 +5,7 @@ public class array {
         for(int i = 0 ; i<5 ; i++){
 
             System.out.println(obj.arr[i]);
+            PrintWriter out  neww
         }
     }
 
