@@ -7,11 +7,11 @@ class Passport{
         return id;
     }
 }
-class Student{
+class Student36{
     private String name;
     private Passport passport;
 
-    Student(String name,String passportId){
+    Student36(String name,String passportId){
         this.name = name;
         this.passport = new Passport(passportId);
         System.out.println("Constructor of the Student is called!!");
@@ -27,7 +27,7 @@ public class CompositionRelationShip {
 
         //This passport object shows the Composition Relationship that is a Strong Relationhip
         
-        Student student = new Student("Vighnesh", "234567890");
+        Student36 student = new Student36("Vighnesh", "234567890");
         System.out.println();
         student.printStudentDetails();
     }
