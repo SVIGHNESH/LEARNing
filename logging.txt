@@ -1,0 +1,10 @@
+This is the testing of the Logger Class from the main to able to write in the testing.txt 
+ that is provided in the path of the COnstructor of the Logger CLass , Without even have to  
+ write about the code of the 
+  Logger Class that has been already been written by the Autor of the Logger Class This is the testing of the Logger Class from the main to able to write in the testing.txt 
+ that is provided in the path of the COnstructor of the Logger CLass , Without even have to  
+ write about the code of the 
+  Logger Class that has been already been written by the Autor of the Logger Class This is the testing of the Logger Class from the main to able to write in the testing.txt 
+ that is provided in the path of the COnstructor of the Logger CLass , Without even have to  
+ write about the code of the 
+  Logger Class that has been already been written by the Autor of the Logger Class 
