@@ -64,8 +64,8 @@ public class FileHandling {
        Logger lg = new Logger("/home/vighnesh/Desktop/LEARNing/logging.txt");
        lg.log("This is the testing of the Logger Class from the main to able to write in the testing.txt \n that is provided in the path of the COnstructor of the Logger CLass , Without even have to  \n write about the code of the \n  Logger Class that has been already been written by the Autor of the Logger Class ");
 
-        lg.log("This is the testing of the Logger Class from the main to able to write in the testing.txt \n that is provided in the path of the COnstructor of the Logger CLass , Without even have to  \n write about the code of the \n  Logger Class that has been already been written by the Autor of the Logger Class ");
-        System.gc();
-
+        //lg.log("This is the testing of the Logger Class from the main to able to write in the testing.txt \n that is provided in the path of the COnstructor of the Logger CLass , Without even have to  \n write about the code of the \n  Logger Class that has been already been written by the Autor of the Logger Class ");
+        System.gc(); 
+        
     }
 }

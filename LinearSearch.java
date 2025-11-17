@@ -20,9 +20,11 @@ public class LinearSearch {
 
         }
         int k = sc.nextInt();
+        int n2 = arr.length;
+
         
         System.out.println(ls(arr, k)+ "th: place in the given array!!!!");
         sc.close();
-        System.gc();
+    
     }
 }
