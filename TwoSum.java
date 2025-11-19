@@ -29,6 +29,7 @@ public class TwoSum {
             arr[i] = sc.nextInt();
             
         }
+        
         int target = sc.nextInt();
         sc.close();
 
