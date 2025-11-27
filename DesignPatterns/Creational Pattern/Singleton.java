@@ -1,12 +1,17 @@
 class JudgeAnalytics{
-    private static final JudgeAnalytics judgeAnalytics = new JudgeAnalytics();
+    private static volatile JudgeAnalytics judgeAnalytics;
     private int runCount = 0;
     private int submitCount = 0;
 
     private JudgeAnalytics() {}
     
     //This is the Method That Ensures Singleton Pattern
-    public static JudgeAnalytics getInstance() {
+    public static  JudgeAnalytics getInstance() {
+        if(judgeAnalytics == null){
+            if()
+            judgeAnalytics = new JudgeAnalytics();
+        }
+        
         return judgeAnalytics;
     }
 
