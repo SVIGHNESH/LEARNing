@@ -7,12 +7,26 @@ class JudgeAnalytics{
     
     //This is the Method That Ensures Singleton Pattern
     public static  JudgeAnalytics getInstance() {
-        if(judgeAnalytics == null){
-            if()
-            judgeAnalytics = new JudgeAnalytics();
-        }
-        
+
+
+        if (judgeAnalytics == null) {
+          synchronized (JudgeAnalytics.class) {
+            if (judgeAnalytics == null) {
+              judgeAnalytics = new JudgeAnalytics();
+            }
+          }
+    }
+
         return judgeAnalytics;
+    }
+
+
+
+    private static class holder {
+        private static final JudgeAnalytics INSTANCE = new JudgeAnalytics();
+    }
+    public static JudgeAnalytics getInstanceUsingHolder() {
+        return holder.INSTANCE;
     }
 
     public void countRun() {
