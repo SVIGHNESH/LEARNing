@@ -1,4 +1,4 @@
- import java.util.*;
+import java.util.*;
 
 class Solution {
     // Check if it's safe to place a queen at board[row][col]
