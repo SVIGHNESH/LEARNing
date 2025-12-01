@@ -1,4 +1,6 @@
-Name of the Student with the Id : 1 is Vighnesh
-Name of the Student with the Id : 2 is Ritik
-Name of the Student with the Id : 3 is Devang
-Name of the Student with the Id : 4 is Suresh
+2
+2
+24
+21
+54
+25
