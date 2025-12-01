@@ -78,6 +78,7 @@ class Solution {
         func(0, ans, board);
         return ans;
   
+    }
 }
 
 class Nqueens {
@@ -91,8 +92,12 @@ class Nqueens {
             for (String row : sol) {
                 System.out.println(row);
             }
+        
             System.out.println();
         }
     }
 }
+
+
+
 

@@ -72,7 +72,7 @@ class SudokoSolver {
        System.out.println("Original Sudoku Board:"); 
         for (char[] row : board) {
             for (char c : row) {
-                System.out.print(c + " ");
+                System.out.print(c +  "  " );
             }
             System.out.println();
         }
@@ -87,7 +87,8 @@ class SudokoSolver {
         System.out.println("Solved Sudoku Board:");
         for (char[] row : board) {
             for (char c : row) {
-                System.out.print(c + " ");
+                System.out.print(c + "  ");
+
             }
             System.out.println();
         }
