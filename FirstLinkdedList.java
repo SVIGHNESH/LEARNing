@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 class Node {
 
     int data;
@@ -47,7 +50,7 @@ public class FirstLinkdedList {
         // Node n4 = new Node(arr[3],null);
         // Node n5 = new Node(arr[4],null);
 
-
+        List<Integer> temp = new ArrayList<>();
         Node head = Node.convertArrtoLL(arr);
         
         
