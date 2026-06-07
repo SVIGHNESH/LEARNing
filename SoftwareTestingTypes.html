@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="A field manual to software testing — a structured catalogue of every major classification, level, method, and modern approach in software quality assurance."/>
+<meta name="theme-color" content="#f1ece1"/>
+<title>A Field Manual to Software Testing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f1ece1;
+    --paper-2:#e8e1d1;
+    --ink:#16140f;
+    --ink-soft:#3a342a;
+    --muted:#6a6256;
+    --rule:#1a17110f;
+    --rule-strong:#16140f;
+    --vermillion:#c0371a;        /* slightly deeper for AA contrast on cream */
+    --vermillion-bright:#d8401f; /* for accents on dark backgrounds */
+    --ochre:#a4731f;
+    --moss:#3d5a2a;
+    --focus:#1a73e8;
+    --ease:cubic-bezier(.2,.7,.2,1);
+    --ease-out:cubic-bezier(.16,1,.3,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:80px}
+  html,body{background:var(--paper);color:var(--ink)}
+  body{
+    font-family:"Inter", system-ui, sans-serif;
+    font-size:17px;line-height:1.55;
+    background-image:radial-gradient(rgba(22,20,15,.045) 1px, transparent 1px);
+    background-size: 4px 4px;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  ::selection{background:var(--vermillion);color:var(--paper)}
+
+  /* ───────── ACCESSIBILITY: focus + skip link ───────── */
+  :focus{outline:none}
+  :focus-visible{
+    outline:2px solid var(--focus);
+    outline-offset:3px;
+    border-radius:2px;
+  }
+  .skip-link{
+    position:absolute;left:8px;top:-40px;
+    background:var(--ink);color:var(--paper);
+    padding:10px 16px;text-decoration:none;
+    font-family:ui-monospace, "SF Mono", Menlo, Consolas, monospace;font-size:12px;
+    letter-spacing:.1em;text-transform:uppercase;
+    z-index:100;border-radius:2px;
+    transition:top .2s var(--ease);
+  }
+  .skip-link:focus{top:8px}
+
+  /* ───────── PROGRESS BAR ───────── */
+  .progress{
+    position:fixed;top:0;left:0;height:2px;width:0;
+    background:var(--vermillion);z-index:50;
+    transition:width .1s linear;
+  }
+
+  /* ───────── HEADER / MASTHEAD ───────── */
+  .masthead{
+    border-bottom:2px solid var(--rule-strong);
+    padding:18px 28px;
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    align-items:center;
+    font-family:ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size:11px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    position:sticky;top:0;z-index:10;
+    backdrop-filter:saturate(140%) blur(8px);
+    -webkit-backdrop-filter:saturate(140%) blur(8px);
+    background:rgba(241,236,225,.88);
+  }
+  .masthead .right{text-align:right}
+  .masthead .mark{
+    font-family:"Inter", system-ui, sans-serif;
+    font-style:italic;font-weight:500;
+    font-size:18px;letter-spacing:0;text-transform:none;
+    color:var(--vermillion);
+  }
+
+  /* ───────── HERO ───────── */
+  .hero{
+    padding:80px 28px 56px;
+    border-bottom:1px solid var(--rule-strong);
+    position:relative;overflow:hidden;
+  }
+  .hero-grid{
+    max-width:1280px;margin:0 auto;
+    display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:end;
+  }
+  .eyebrow{
+    font-family:ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size:11px;letter-spacing:.25em;text-transform:uppercase;
+    color:var(--vermillion);margin-bottom:24px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .eyebrow::before{content:"";width:32px;height:1px;background:var(--vermillion)}
+  h1.title{
+    font-family:"Inter", system-ui, sans-serif;
+    font-weight:300;font-size:clamp(54px,8vw,128px);
+    line-height:.92;letter-spacing:-0.035em;
+    font-variation-settings:"opsz" 144;
+  }
+  h1.title em{
+    font-style:italic;font-weight:500;color:var(--vermillion);
+    font-variation-settings:"opsz" 144;
+  }
+  .hero-meta{
+    font-family:ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size:12px;letter-spacing:.05em;color:var(--ink-soft);
+    border-left:1px solid var(--rule-strong);padding-left:20px;
+  }
+  .hero-meta dt{text-transform:uppercase;color:var(--muted);font-size:10px;letter-spacing:.2em;margin-top:14px}
+  .hero-meta dt:first-child{margin-top:0}
+  .hero-meta dd{margin-top:4px;color:var(--ink)}
+  .lede{
+    grid-column:1 / -1;margin-top:56px;
+    font-family:"Inter", system-ui, sans-serif;font-weight:300;
+    font-size:clamp(20px,2.2vw,28px);line-height:1.4;
+    max-width:900px;color:var(--ink-soft);
+    font-variation-settings:"opsz" 48;
+  }
+  .lede em{font-style:italic;color:var(--vermillion)}
+
+  .corner{
+    position:absolute;width:40px;height:40px;
+    border:1px solid var(--ink);
+  }
+  .corner.tl{top:24px;left:24px;border-right:none;border-bottom:none}
+  .corner.tr{top:24px;right:24px;border-left:none;border-bottom:none}
+
+  /* ───────── TABLE OF CONTENTS ───────── */
+  .toc{
+    border-bottom:1px solid var(--rule-strong);
+    background:var(--paper);
+    padding:14px 28px;
+  }
+  .toc-inner{
+    max-width:1280px;margin:0 auto;
+    display:flex;flex-wrap:wrap;gap:6px 28px;
+    font-family:ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size:11px;letter-spacing:.15em;text-transform:uppercase;
+    align-items:center;justify-content:center;
+  }
+  .toc a{
+    color:var(--ink-soft);text-decoration:none;
+    padding:6px 0;border-bottom:1px solid transparent;
+    transition:color .25s var(--ease), border-color .25s var(--ease);
+  }
+  .toc a:hover,.toc a:focus-visible{color:var(--vermillion);border-bottom-color:var(--vermillion)}
+  .toc a .num{color:var(--vermillion);margin-right:6px;font-weight:700}
+
+  /* ───────── LEGEND STRIP ───────── */
+  .legend-strip{
+    border-bottom:1px solid var(--rule-strong);
+    padding:18px 28px;
+    display:flex;flex-wrap:wrap;gap:28px;justify-content:center;
+    font-family:ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  }
+  .legend-strip span{display:flex;align-items:center;gap:8px;color:var(--ink-soft)}
+  .swatch{width:14px;height:14px;display:inline-block;border:1px solid var(--ink)}
+  .sw-l{background:#c0371a}
+  .sw-m{background:#a4731f}
+  .sw-f{background:#16140f}
+  .sw-n{background:#3d5a2a}
+  .sw-x{background:#f1ece1}
+
+  /* ───────── SECTION ───────── */
+  main{max-width:1280px;margin:0 auto;padding:0 28px}
+
+  section{
+    border-bottom:1px solid var(--rule-strong);
+    padding:80px 0;
+    position:relative;
+    scroll-margin-top:90px;
+  }
+  .sec-head{
+    display:grid;grid-template-columns:160px 1fr;gap:40px;
+    margin-bottom:48px;align-items:start;
+  }
+  .sec-num{
+    font-family:"Inter", system-ui, sans-serif;
+    font-weight:300;font-size:96px;line-height:.85;
+    color:var(--vermillion);
+    font-variation-settings:"opsz" 144;
+    border-top:2px solid var(--vermillion);
+    padding-top:12px;
+  }
+  .sec-num small{
+    display:block;font-family:ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size:10px;letter-spacing:.25em;text-transform:uppercase;
+    color:var(--muted);margin-top:14px;font-weight:400;
+  }
+  .sec-head h2{
+    font-family:"Inter", system-ui, sans-serif;
+    font-weight:400;font-size:clamp(36px,4.5vw,64px);
+    line-height:1;letter-spacing:-0.02em;
+    font-variation-settings:"opsz" 96;
+  }
+  .sec-head h2 em{font-style:italic;color:var(--vermillion);font-weight:500}
+  .sec-head .sub{
+    margin-top:18px;font-size:18px;color:var(--ink-soft);
+    max-width:640px;font-style:italic;
+  }
+
+  /* ───────── PYRAMID ───────── */
+  .pyramid-block{
+    display:grid;grid-template-columns:1fr 1.4fr;gap:48px;align-items:center;
+    background:var(--paper-2);
+    border:1px solid var(--rule-strong);
+    padding:40px;margin-bottom:40px;
+    position:relative;
+  }
+  .pyramid-block::before{
+    content:"FIG. 01 — THE TEST PYRAMID";
+    position:absolute;top:-10px;left:24px;
+    background:var(--paper);padding:0 12px;
+    font-family:ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size:10px;letter-spacing:.25em;color:var(--vermillion);
+  }
+  .pyramid{display:flex;flex-direction:column;align-items:center;gap:8px}
+  .pyramid .row{
+    width:100%;text-align:center;
+    font-family:ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size:12px;letter-spacing:.15em;text-transform:uppercase;
+    padding:14px 12px;border:1px solid var(--ink);
+    color:var(--ink);font-weight:500;
+    transform-origin:center;
+  }
+  .pyramid .r1{width:38%;background:var(--vermillion);color:var(--paper)}
+  .pyramid .r2{width:64%;background:var(--ochre);color:var(--paper)}
+  .pyramid .r3{width:90%;background:var(--moss);color:var(--paper)}
+  .pyramid-block aside{
+    font-family:"Inter", system-ui, sans-serif;font-size:16px;color:var(--ink-soft);
+  }
+  .pyramid-block aside p{margin-bottom:12px}
+  .pyramid-block aside b{font-family:"Inter", system-ui, sans-serif;font-weight:500;color:var(--ink)}
+
+  /* ───────── CARD GRID ───────── */
+  .grid{
+    display:grid;gap:0;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    border-top:1px solid var(--rule-strong);
+    border-left:1px solid var(--rule-strong);
+  }
+  .card{
+    border-right:1px solid var(--rule-strong);
+    border-bottom:1px solid var(--rule-strong);
+    padding:28px 26px;
+    background:var(--paper);
+    position:relative;
+    overflow:hidden;
+    transition:background .35s var(--ease), transform .4s var(--ease-out);
+  }
+  .card::after{
+    content:"";position:absolute;inset:auto 0 0 0;height:2px;
+    background:var(--vermillion);
+    transform:scaleX(0);transform-origin:left;
+    transition:transform .5s var(--ease-out);
+  }
+  .card:hover,.card:focus-within{background:var(--paper-2)}
+  .card:hover::after,.card:focus-within::after{transform:scaleX(1)}
+  .card .idx{
+    font-family:ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size:10px;letter-spacing:.2em;color:var(--muted);
+    margin-bottom:14px;display:flex;justify-content:space-between;
+  }
+  .card .idx .tag{color:var(--vermillion)}
+  .card h3{
+    font-family:"Inter", system-ui, sans-serif;
+    font-weight:400;font-size:24px;line-height:1.1;
+    letter-spacing:-0.01em;margin-bottom:10px;
+    font-variation-settings:"opsz" 72;
+  }
+  .card h3 em{font-style:italic;color:var(--vermillion)}
+  .card p{font-size:15.5px;color:var(--ink-soft);line-height:1.5}
+  .card ul{
+    margin-top:14px;list-style:none;
+    border-top:1px dashed var(--ink);padding-top:12px;
+  }
+  .card ul li{
+    font-family:ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size:11.5px;letter-spacing:.04em;color:var(--ink-soft);
+    padding:3px 0;display:flex;gap:10px;
+  }
+  .card ul li::before{content:"→";color:var(--vermillion);flex-shrink:0}
+
+  .card.cat-l{border-top:3px solid var(--vermillion)}
+  .card.cat-m{border-top:3px solid var(--ochre)}
+  .card.cat-f{border-top:3px solid var(--ink)}
+  .card.cat-n{border-top:3px solid var(--moss)}
+  .card.cat-x{border-top:3px solid var(--vermillion);background:var(--paper-2)}
+
+  /* ───────── TABLE ───────── */
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table{
+    width:100%;min-width:640px;border-collapse:collapse;
+    border:1px solid var(--rule-strong);
+    background:var(--paper);
+    font-family:"Inter", system-ui, sans-serif;
+  }
+  caption{
+    text-align:left;padding:0 0 12px;
+    font-family:ui-monospace, "SF Mono", Menlo, Consolas, monospace;font-size:11px;
+    letter-spacing:.2em;text-transform:uppercase;color:var(--vermillion);
+    caption-side:top;
+  }
+  thead th{
+    background:var(--ink);color:var(--paper);
+    font-family:ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+    padding:16px;text-align:left;font-weight:500;
+  }
+  tbody td,tbody th{
+    padding:18px 16px;
+    border-bottom:1px solid var(--rule);
+    font-size:16px;color:var(--ink-soft);
+    vertical-align:top;text-align:left;
+  }
+  tbody th[scope="row"]{
+    font-family:"Inter", system-ui, sans-serif;font-weight:500;
+    color:var(--ink);font-size:17px;width:22%;
+    background:transparent;
+  }
+  tbody tr:last-child td,tbody tr:last-child th{border-bottom:none}
+  tbody tr:hover td,tbody tr:hover th{background:var(--paper-2)}
+
+  /* ───────── FOOTER ───────── */
+  footer{
+    padding:80px 28px 60px;
+    border-top:2px solid var(--rule-strong);
+    background:var(--ink);color:var(--paper);
+    font-family:ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  }
+  footer .inner{
+    max-width:900px;margin:0 auto;text-align:center;
+  }
+  footer h2{
+    font-family:"Inter", system-ui, sans-serif;font-weight:400;font-style:italic;
+    font-size:32px;line-height:1.1;color:var(--paper);
+    text-transform:none;letter-spacing:-0.01em;margin-bottom:20px;
+    font-variation-settings:"opsz" 96;
+  }
+  footer h2 em{color:var(--vermillion-bright);font-weight:500}
+  footer p{color:#bdb6a8;line-height:1.7;text-transform:none;letter-spacing:0;font-family:"Inter", system-ui, sans-serif;font-size:15px}
+  footer h3{
+    font-family:ui-monospace, "SF Mono", Menlo, Consolas, monospace;font-weight:600;
+    color:var(--paper);font-size:11px;letter-spacing:.2em;
+    text-transform:uppercase;margin-bottom:14px;
+  }
+  footer ul{list-style:none;color:#bdb6a8}
+  footer ul li{padding:4px 0}
+  footer .copy{
+    grid-column:1 / -1;border-top:1px solid #3a342a;
+    padding-top:24px;margin-top:30px;
+    display:flex;justify-content:space-between;color:#7a7164;
+  }
+  .back-to-top{
+    color:var(--vermillion-bright);text-decoration:none;
+    border-bottom:1px solid var(--vermillion-bright);padding-bottom:2px;
+    transition:opacity .2s var(--ease);
+  }
+  .back-to-top:hover{opacity:.7}
+
+  /* ───────── RESPONSIVE ───────── */
+  @media (max-width:880px){
+    .hero-grid{grid-template-columns:1fr}
+    .sec-head{grid-template-columns:1fr;gap:20px}
+    .sec-num{font-size:64px}
+    .pyramid-block{grid-template-columns:1fr;padding:32px 24px}
+    .masthead{grid-template-columns:1fr;text-align:center;gap:6px}
+    .masthead .right{text-align:center}
+    footer .inner{grid-template-columns:1fr}
+  }
+
+  /* ───────── ENTRANCE ANIMATION ───────── */
+  @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  @keyframes draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+
+  .hero .eyebrow,
+  .hero h1.title,
+  .hero .hero-meta,
+  .hero .lede{animation:rise .9s both var(--ease))}
+  .hero h1.title{animation:rise 1s .1s both var(--ease)}
+  .hero .hero-meta{animation:rise .9s .25s both var(--ease)}
+  .hero .lede{animation:rise .9s .4s both var(--ease)}
+
+  /* Scroll-reveal staging — applied via IntersectionObserver */
+  .reveal{
+    opacity:0;transform:translateY(24px);
+    transition:opacity .8s var(--ease-out), transform .8s var(--ease-out);
+    will-change:opacity, transform;
+  }
+  .reveal.in{opacity:1;transform:none}
+  .reveal-stagger > *{
+    opacity:0;transform:translateY(20px);
+    transition:opacity .6s var(--ease-out), transform .6s var(--ease-out);
+  }
+  .reveal-stagger.in > *{opacity:1;transform:none}
+  .reveal-stagger.in > *:nth-child(1){transition-delay:.05s}
+  .reveal-stagger.in > *:nth-child(2){transition-delay:.12s}
+  .reveal-stagger.in > *:nth-child(3){transition-delay:.19s}
+  .reveal-stagger.in > *:nth-child(4){transition-delay:.26s}
+  .reveal-stagger.in > *:nth-child(5){transition-delay:.33s}
+  .reveal-stagger.in > *:nth-child(6){transition-delay:.40s}
+  .reveal-stagger.in > *:nth-child(7){transition-delay:.47s}
+  .reveal-stagger.in > *:nth-child(8){transition-delay:.54s}
+  .reveal-stagger.in > *:nth-child(n+9){transition-delay:.6s}
+
+  /* Pyramid bars draw-in */
+  .pyramid .row{transform:scaleX(0);transform-origin:center;
+    transition:transform .9s var(--ease-out), opacity .4s var(--ease)}
+  .pyramid-block.in .row{transform:scaleX(1)}
+  .pyramid-block.in .r3{transition-delay:.0s}
+  .pyramid-block.in .r2{transition-delay:.15s}
+  .pyramid-block.in .r1{transition-delay:.3s}
+
+  /* ───────── REDUCED MOTION ───────── */
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{
+      animation-duration:.001ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:.001ms !important;
+      scroll-behavior:auto !important;
+    }
+    .reveal,.reveal-stagger > *,.pyramid .row{
+      opacity:1 !important;transform:none !important;
+    }
+  }
+
+  /* ───────── PRINT ───────── */
+  @media print{
+    body{background:#fff;color:#000;font-size:11pt}
+    .masthead,.toc,.progress,.skip-link,footer{display:none}
+    section{page-break-inside:avoid;border-bottom:1px solid #000;padding:24px 0}
+    .grid{break-inside:avoid}
+    .reveal,.reveal-stagger > *{opacity:1 !important;transform:none !important}
+  }
+
+  /* ───────── HIGH CONTRAST ───────── */
+  @media (prefers-contrast: more){
+    :root{--ink-soft:#16140f;--muted:#3a342a}
+  }
+</style>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to content</a>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<!-- HERO -->
+<header class="hero" role="region" aria-labelledby="hero-title">
+  <span class="corner tl" aria-hidden="true"></span>
+  <span class="corner tr" aria-hidden="true"></span>
+
+  <div class="hero-grid">
+    <div>
+      <p class="eyebrow">A Field Manual</p>
+      <h1 id="hero-title" class="title">Every<br/>way to <em>break</em><br/>the thing<br/>you built.</h1>
+    </div>
+
+    <p class="lede">
+      Software testing is less a checklist than a <em>vocabulary</em> — a way to
+      describe how, where, and why a system might fail. What follows is a
+      catalogue of that vocabulary, organised from the smallest unit of code
+      to the broadest behaviours of a system in the wild.
+    </p>
+  </div>
+</header>
+
+<!-- LEGEND -->
+<div class="legend-strip" role="region" aria-label="Category legend">
+  <span><i class="swatch sw-l" aria-hidden="true"></i> Levels</span>
+  <span><i class="swatch sw-m" aria-hidden="true"></i> Methods</span>
+  <span><i class="swatch sw-f" aria-hidden="true"></i> Functional</span>
+  <span><i class="swatch sw-n" aria-hidden="true"></i> Non-Functional</span>
+  <span><i class="swatch sw-x" aria-hidden="true"></i> Maintenance · Modern</span>
+</div>
+
+<main id="main-content">
+
+  <!-- §1 LEVELS -->
+  <section id="sec-1" aria-labelledby="h-sec-1">
+    <div class="sec-head reveal">
+      <div class="sec-num" aria-hidden="true">01<small>Levels of scope</small></div>
+      <div>
+        <h2 id="h-sec-1">Testing <em>Levels</em></h2>
+        <p class="sub">Defined by how much of the system is exercised at once. The classic ladder, from a single function to a fully assembled product.</p>
+      </div>
+    </div>
+
+    <figure class="pyramid-block reveal" aria-labelledby="fig1-cap">
+      <div class="pyramid" role="img" aria-label="Test pyramid: a wide base of unit tests, a narrower middle of integration tests, and a small top of UI end-to-end tests.">
+        <div class="row r1">UI · End-to-End</div>
+        <div class="row r2">Integration</div>
+        <div class="row r3">Unit Tests</div>
+      </div>
+      <aside>
+        <p>The <b>Test Pyramid</b> is a heuristic, not a law. It argues for many fast, cheap unit tests at the base, fewer integration tests in the middle, and only a handful of slow, brittle end-to-end tests at the top.</p>
+        <p>Invert the pyramid and you get the <b>ice-cream cone</b> — the anti-pattern most teams accidentally build first.</p>
+      </aside>
+      <figcaption id="fig1-cap" class="visually-hidden" style="position:absolute;left:-9999px">Figure 1: The Test Pyramid.</figcaption>
+    </figure>
+
+    <div class="grid reveal-stagger">
+      <article class="card cat-l"><div class="idx"><span>01 / 04</span><span class="tag">Level</span></div><h3><em>Unit</em> Testing</h3><p>The smallest piece of code — a function, method, or class — verified in isolation, usually with mocks or stubs replacing its collaborators.</p><ul><li>JUnit · PyTest · Jest · NUnit</li><li>Owned by the developer</li></ul></article>
+      <article class="card cat-l"><div class="idx"><span>02 / 04</span><span class="tag">Level</span></div><h3><em>Integration</em> Testing</h3><p>Two or more modules or services exercised together to confirm their contracts hold at the seams.</p><ul><li>Big-Bang · Top-Down · Bottom-Up · Sandwich</li><li>TestNG · REST-Assured</li></ul></article>
+      <article class="card cat-l"><div class="idx"><span>03 / 04</span><span class="tag">Level</span></div><h3><em>System</em> Testing</h3><p>The fully assembled application tested end-to-end against requirements — the first time it behaves as users will see it.</p><ul><li>Black-box in nature</li><li>Owned by QA</li></ul></article>
+      <article class="card cat-l"><div class="idx"><span>04 / 04</span><span class="tag">Level</span></div><h3><em>Acceptance</em> Testing</h3><p>Validates that the system meets business intent and is fit for release. The final handshake before the ship leaves harbour.</p><ul><li>UAT · BAT · Alpha · Beta</li><li>Contract · Regulation</li></ul></article>
+    </div>
+  </section>
+
+  <!-- §2 METHODS -->
+  <section id="sec-2" aria-labelledby="h-sec-2">
+    <div class="sec-head reveal">
+      <div class="sec-num" aria-hidden="true">02<small>Lens of visibility</small></div>
+      <div>
+        <h2 id="h-sec-2">Testing <em>Methods</em></h2>
+        <p class="sub">Classified by how much knowledge the tester has of the code beneath the surface — three lenses, three philosophies.</p>
+      </div>
+    </div>
+    <div class="grid reveal-stagger">
+      <article class="card cat-m"><div class="idx"><span>01 / 03</span><span class="tag">Method</span></div><h3><em>Black-Box</em></h3><p>Inputs in, outputs out. The internals are sealed. Tests written against specification, never against implementation.</p><ul><li>Equivalence Partitioning</li><li>Boundary Value Analysis</li><li>Decision Tables · State Transition</li></ul></article>
+      <article class="card cat-m"><div class="idx"><span>02 / 03</span><span class="tag">Method</span></div><h3><em>White-Box</em></h3><p>Source code is the map. Tests target paths, branches, and statements with surgical intent.</p><ul><li>Statement · Branch · Path coverage</li><li>Loop &amp; condition testing</li><li>Mutation testing</li></ul></article>
+      <article class="card cat-m"><div class="idx"><span>03 / 03</span><span class="tag">Method</span></div><h3><em>Grey-Box</em></h3><p>The hybrid — partial sight of internals (a schema, an API) while still probing from the outside.</p><ul><li>Matrix testing</li><li>Pattern testing</li></ul></article>
+    </div>
+  </section>
+
+  <!-- §3 FUNCTIONAL -->
+  <section id="sec-3" aria-labelledby="h-sec-3">
+    <div class="sec-head reveal">
+      <div class="sec-num" aria-hidden="true">03<small>What it does</small></div>
+      <div>
+        <h2 id="h-sec-3"><em>Functional</em> Testing</h2>
+        <p class="sub">Does the software do what the spec says it should? Each technique below answers a different shade of that question.</p>
+      </div>
+    </div>
+    <div class="grid reveal-stagger">
+      <article class="card cat-f"><div class="idx"><span>01</span><span class="tag">Functional</span></div><h3>Smoke</h3><p>The cursory "does it even start?" check after a new build lands.</p></article>
+      <article class="card cat-f"><div class="idx"><span>02</span><span class="tag">Functional</span></div><h3>Sanity</h3><p>A narrow, focused look after a small change — a rationality test.</p></article>
+      <article class="card cat-f"><div class="idx"><span>03</span><span class="tag">Functional</span></div><h3>Regression</h3><p>Re-runs the old suite to confirm nothing fresh has broken something old.</p></article>
+      <article class="card cat-f"><div class="idx"><span>04</span><span class="tag">Functional</span></div><h3>Re-Testing</h3><p>Re-executes a previously failing case after a fix to confirm the bug is gone.</p></article>
+      <article class="card cat-f"><div class="idx"><span>05</span><span class="tag">Functional</span></div><h3>API</h3><p>Endpoints, contracts, and data flow between services — tested without a UI in sight.</p></article>
+      <article class="card cat-f"><div class="idx"><span>06</span><span class="tag">Functional</span></div><h3>UI / GUI</h3><p>Layout, components, and the choreography of human interaction.</p></article>
+      <article class="card cat-f"><div class="idx"><span>07</span><span class="tag">Functional</span></div><h3>L10n &amp; G11n</h3><p>Languages, currencies, dates, and the cultural assumptions baked into them.</p></article>
+      <article class="card cat-f"><div class="idx"><span>08</span><span class="tag">Functional</span></div><h3>Ad-hoc &amp; Exploratory</h3><p>Unscripted, intuition-led — the kind that finds what no checklist anticipated.</p></article>
+    </div>
+  </section>
+
+  <!-- §4 NON-FUNCTIONAL -->
+  <section id="sec-4" aria-labelledby="h-sec-4">
+    <div class="sec-head reveal">
+      <div class="sec-num" aria-hidden="true">04<small>How well it does it</small></div>
+      <div>
+        <h2 id="h-sec-4"><em>Non-Functional</em> Testing</h2>
+        <p class="sub">Speed, resilience, security, dignity. The qualities a user feels but rarely names.</p>
+      </div>
+    </div>
+    <div class="grid reveal-stagger">
+      <article class="card cat-n"><div class="idx"><span>01</span><span class="tag">Non-Func</span></div><h3><em>Performance</em></h3><p>An umbrella for everything related to responsiveness and stability under workload.</p><ul><li>Load — expected traffic</li><li>Stress — beyond limits</li><li>Spike — sudden bursts</li><li>Endurance — long duration</li><li>Scalability · Volume</li></ul></article>
+      <article class="card cat-n"><div class="idx"><span>02</span><span class="tag">Non-Func</span></div><h3><em>Security</em></h3><p>Find the holes before someone less friendly does.</p><ul><li>Penetration testing</li><li>Vulnerability scanning</li><li>Risk assessment · Ethical hacking</li><li>Posture &amp; compliance</li></ul></article>
+      <article class="card cat-n"><div class="idx"><span>03</span><span class="tag">Non-Func</span></div><h3>Usability</h3><p>Ease of use, learnability, satisfaction. Often a five-user study reveals more than a hundred bug tickets.</p></article>
+      <article class="card cat-n"><div class="idx"><span>04</span><span class="tag">Non-Func</span></div><h3>Compatibility</h3><p>Across browsers, operating systems, hardware, networks, and yesterday's versions.</p></article>
+      <article class="card cat-n"><div class="idx"><span>05</span><span class="tag">Non-Func</span></div><h3>Reliability</h3><p>The probability of failure-free operation over a defined window.</p></article>
+      <article class="card cat-n"><div class="idx"><span>06</span><span class="tag">Non-Func</span></div><h3>Recovery</h3><p>How gracefully the system rises after a crash, a power cut, or a region falling off the internet.</p></article>
+      <article class="card cat-n"><div class="idx"><span>07</span><span class="tag">Non-Func</span></div><h3>Accessibility</h3><p>WCAG, ARIA, screen readers — building for the full range of human ability.</p></article>
+      <article class="card cat-n"><div class="idx"><span>08</span><span class="tag">Non-Func</span></div><h3>Installation</h3><p>Install. Upgrade. Uninstall. The forgotten lifecycle, rediscovered the moment it goes wrong.</p></article>
+    </div>
+  </section>
+
+  <!-- §5 MAINTENANCE -->
+  <section id="sec-5" aria-labelledby="h-sec-5">
+    <div class="sec-head reveal">
+      <div class="sec-num" aria-hidden="true">05<small>After the change</small></div>
+      <div>
+        <h2 id="h-sec-5"><em>Maintenance</em> Testing</h2>
+        <p class="sub">Performed on systems already in flight — after a patch, a migration, or an end-of-life.</p>
+      </div>
+    </div>
+    <div class="grid reveal-stagger">
+      <article class="card cat-x"><div class="idx"><span>01</span><span class="tag">Maintenance</span></div><h3>Confirmation</h3><p>Confirms a defect's fix actually held, with no fresh casualties.</p></article>
+      <article class="card cat-x"><div class="idx"><span>02</span><span class="tag">Maintenance</span></div><h3>Regression</h3><p>The wider safety net after patches, upgrades, or platform changes.</p></article>
+      <article class="card cat-x"><div class="idx"><span>03</span><span class="tag">Maintenance</span></div><h3>Migration</h3><p>Validates data and behaviour when crossing between versions or platforms.</p></article>
+    </div>
+  </section>
+
+  <!-- §6 MODERN -->
+  <section id="sec-6" aria-labelledby="h-sec-6">
+    <div class="sec-head reveal">
+      <div class="sec-num" aria-hidden="true">06<small>Cross-cutting practice</small></div>
+      <div>
+        <h2 id="h-sec-6"><em>Specialized</em> &amp; Modern Approaches</h2>
+        <p class="sub">Approaches that ignore the categories above — they are practices, philosophies, and quiet revolutions.</p>
+      </div>
+    </div>
+    <div class="grid reveal-stagger">
+      <article class="card cat-x"><div class="idx"><span>01</span><span class="tag">Modern</span></div><h3>TDD</h3><p>Failing test first, then code, then refactor. A discipline disguised as a workflow.</p></article>
+      <article class="card cat-x"><div class="idx"><span>02</span><span class="tag">Modern</span></div><h3>BDD</h3><p>Given / When / Then. Specifications written so that humans and machines can read the same sentence.</p></article>
+      <article class="card cat-x"><div class="idx"><span>03</span><span class="tag">Modern</span></div><h3>ATDD</h3><p>Acceptance criteria become the tests, written before a single line of production code.</p></article>
+      <article class="card cat-x"><div class="idx"><span>04</span><span class="tag">Modern</span></div><h3>Mutation</h3><p>Deliberately corrupts code to ask: would your tests have noticed?</p></article>
+      <article class="card cat-x"><div class="idx"><span>05</span><span class="tag">Modern</span></div><h3>Fuzz</h3><p>Random or malformed inputs at high speed. The favourite tool of the security researcher.</p></article>
+      <article class="card cat-x"><div class="idx"><span>06</span><span class="tag">Modern</span></div><h3>Property-Based</h3><p>Asserts invariants over generated input. QuickCheck, Hypothesis, and friends.</p></article>
+      <article class="card cat-x"><div class="idx"><span>07</span><span class="tag">Modern</span></div><h3>Snapshot &amp; Visual</h3><p>Compares rendered output against a baseline — pixels, DOM, or otherwise.</p></article>
+      <article class="card cat-x"><div class="idx"><span>08</span><span class="tag">Modern</span></div><h3>Contract</h3><p>Producer/consumer agreements pinned down so microservices stop lying to each other. (See: Pact.)</p></article>
+      <article class="card cat-x"><div class="idx"><span>09</span><span class="tag">Modern</span></div><h3>Chaos Engineering</h3><p>Inject failure on purpose. Discover what the architecture diagram quietly omitted.</p></article>
+      <article class="card cat-x"><div class="idx"><span>10</span><span class="tag">Modern</span></div><h3>A/B Testing</h3><p>Two variants, real users, statistical truth. Less testing than experimentation.</p></article>
+      <article class="card cat-x"><div class="idx"><span>11</span><span class="tag">Modern</span></div><h3>Shift-Left / Right</h3><p>Push testing earlier into development — or later into production observability.</p></article>
+      <article class="card cat-x"><div class="idx"><span>12</span><span class="tag">Modern</span></div><h3>Continuous</h3><p>Tests woven into CI/CD so that every commit is a small, automatic referendum.</p></article>
+    </div>
+  </section>
+
+  <!-- §7 COMPARISON -->
+  <section id="sec-7" aria-labelledby="h-sec-7">
+    <div class="sec-head reveal">
+      <div class="sec-num" aria-hidden="true">07<small>The trade-off</small></div>
+      <div>
+        <h2 id="h-sec-7"><em>Manual</em> vs. <em>Automated</em></h2>
+        <p class="sub">Not opposing schools — complementary instruments. The art is in choosing which to deploy, and when.</p>
+      </div>
+    </div>
+
+    <div class="table-wrap reveal">
+      <table>
+        <caption>Table 01 — Trade-offs between manual and automated approaches</caption>
+        <thead>
+          <tr><th scope="col">Aspect</th><th scope="col">Manual Testing</th><th scope="col">Automated Testing</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Best for</th><td>Exploratory work, UX, ad-hoc investigation</td><td>Regression, load, anything repetitive</td></tr>
+          <tr><th scope="row">Speed</th><td>Slow — bound to human pace</td><td>Fast — bound to CPU cycles</td></tr>
+          <tr><th scope="row">Initial cost</th><td>Low to set up</td><td>High — frameworks, infra, training</td></tr>
+          <tr><th scope="row">Long-term cost</th><td>High — repeats every cycle</td><td>Low — amortised across runs</td></tr>
+          <tr><th scope="row">Reliability</th><td>Subject to human error and fatigue</td><td>Deterministic, given stable inputs</td></tr>
+          <tr><th scope="row">Toolkit</th><td>Test cases, checklists, intuition</td><td>Selenium, Cypress, Playwright, JUnit</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer role="contentinfo">
+  <div class="inner">
+    <h2>End of <em>compendium</em>.</h2>
+    <p>Quality is not the absence of bugs but the presence of confidence — and these methods, taken together, are how that confidence is built one assertion at a time.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Scroll progress bar
+  const bar = document.getElementById('progress');
+  const updateProgress = () => {
+    const h = document.documentElement;
+    const scrolled = h.scrollTop / (h.scrollHeight - h.clientHeight);
+    bar.style.width = (scrolled * 100) + '%';
+  };
+  document.addEventListener('scroll', updateProgress, {passive:true});
+  updateProgress();
+
+  // IntersectionObserver reveals (respect reduced-motion)
+  if (!reduced && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, {threshold:0.12, rootMargin:'0px 0px -60px 0px'});
+    document.querySelectorAll('.reveal, .reveal-stagger, .pyramid-block').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal, .reveal-stagger, .pyramid-block').forEach(el => el.classList.add('in'));
+  }
+
+})();
+</script>
+
+</body>
+</html>

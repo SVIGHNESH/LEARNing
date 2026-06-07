@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class TwoSum {
 
     public static String twoSum(int n, int arr[],int target){
-             Arrays.sort(arr);
+            Arrays.sort(arr);
             int left = 0;
             int right = n-1;
             while(left < right){

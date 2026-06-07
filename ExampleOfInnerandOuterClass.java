@@ -23,7 +23,7 @@ class ExampleOfInnerandOuterClass {
     // OuterClass outer = new OuterClass();
     OuterClass.InnerClass inner = new OuterClass.InnerClass();
 
-    // inner.execute();
+    inner.execute();
 
     ArrayList<Integer> ls = new ArrayList<>() {
       @Override
